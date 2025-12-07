@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>9/H Sınıfı Tarih Soruları</title>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f7;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background: #4a68ff;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .container {
+        width: 90%;
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        margin-top: 30px;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .question h3 {
+        margin: 0 0 10px 0;
+        font-size: 20px;
+    }
+
+    button {
+        background: #4a68ff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background: #3a54d6;
+    }
+
+    .result {
+        font-size: 20px;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+</head>
+
+<body>
+
+<header>9/H Sınıfı Tarih Soruları</header>
+
+<div class="container">
+    <div id="quiz"></div>
+    <button onclick="checkAnswers()">Cevapları Kontrol Et</button>
+    <div class="result" id="resultBox"></div>
+</div>
+
+<script>
+const sorular = [
+    { soru: "1- Osmanlı Devleti hangi yılda kurulmuştur?", cevap: "1299" },
+    { soru: "2- İstanbul’u fetheden Osmanlı padişahı kimdir?", cevap: "Fatih Sultan Mehmet" },
+    { soru: "3- İlk Türk devletleri arasında hangisi vardır?", cevap: "Göktürkler" }
+];
+
+function yükle() {
+    const quiz = document.getElementById("quiz");
+    quiz.innerHTML = "";
+    sorular.forEach((s, i) => {
+        quiz.innerHTML += `
+            <div class="question">
+                <h3>${s.soru}</h3>
+                <input type="text" id="q${i}" placeholder="Cevabını yaz...">
+            </div>
+        `;
+    });
+}
+
+function checkAnswers() {
+    let doğru = 0;
+
+    sorular.forEach((s, i) => {
+        const kullanici = document.getElementById("q" + i).value.trim().toLowerCase();
+        const dogru = s.cevap.trim().toLowerCase();
+        if (kullanici === dogru) doğru++;
+    });
+
+    document.getElementById("resultBox").innerHTML = 
+        `Doğru sayısı: ${doğru}/${sorular.length}`;
+}
+
+yükle();
+</script>
+
+</body>
+</html>
