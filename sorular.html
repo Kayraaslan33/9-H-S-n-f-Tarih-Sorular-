@@ -17,59 +17,52 @@
         color: white;
         padding: 20px;
         text-align: center;
-        font-size: 26px;
+        font-size: 28px;
         font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
     .container {
-        max-width: 700px;
-        margin: 30px auto;
+        width: 80%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    .question-box {
         background: white;
-        padding: 20px 30px;
-        border-radius: 12px;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .question {
-        margin-bottom: 25px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .option {
-        margin: 10px 0;
-        padding: 10px;
-        background: #ececf5;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-
-    .option:hover {
-        background: #dfe1ff;
+    .question-box h3 {
+        margin: 0 0 10px 0;
     }
 
     button {
-        width: 100%;
-        padding: 12px;
         background: #4a6cf7;
         color: white;
+        padding: 12px 20px;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         font-size: 18px;
         cursor: pointer;
         margin-top: 20px;
     }
 
-    #result {
-        margin-top: 20px;
+    button:hover {
+        background: #3b55c9;
+    }
+
+    .result {
         font-size: 20px;
+        margin-top: 20px;
         font-weight: bold;
-        text-align: center;
     }
 </style>
-
 </head>
+
 <body>
 
 <header>9/H Sınıfı Tarih Soruları</header>
@@ -78,64 +71,87 @@
 
 <button onclick="checkAnswers()">Cevapları Kontrol Et</button>
 
-<div id="result"></div>
+<div class="result" id="resultText"></div>
 
 <script>
-let sorular = [
-    {
-        soru: "1) Osmanlı Devleti hangi yılda kurulmuştur?",
-        seçenekler: ["1299", "1453", "1071", "1923"],
-        doğru: 0
-    },
-    {
-        soru: "2) Türkiye Cumhuriyeti'nin kurucusu kimdir?",
-        seçenekler: ["Fatih Sultan Mehmet", "Yavuz Sultan Selim", "Mustafa Kemal Atatürk", "Kanuni Sultan Süleyman"],
-        doğru: 2
-    },
-    {
-        soru: "3) İstanbul hangi yılda fethedilmiştir?",
-        seçenekler: ["1453", "1402", "1071", "1517"],
-        doğru: 0
-    }
+const questions = [
+    { q: "1) İlk Çağ'da yazıyı bulan uygarlık hangisidir?", 
+      a: ["Mısırlılar", "Sümerler", "Hititler", "Urartular"], correct: 1 },
+
+    { q: "2) Tarih biliminin temel malzemesi nedir?", 
+      a: ["Para", "Silah", "Yazı", "Taş"], correct: 2 },
+
+    { q: "3) Orta Çağ hangi olayla başlar?", 
+      a: ["İstanbul'un Fethi", "Yazının Bulunması", "Roma'nın Yıkılması", "Rönesans"], correct: 2 },
+
+    { q: "4) Osmanlı Devleti’nin kurucusu kimdir?", 
+      a: ["Fatih", "Kanuni", "Orhan Bey", "Osman Bey"], correct: 3 },
+
+    { q: "5) Türklerin ana yurdu neresidir?", 
+      a: ["Avrupa", "Orta Asya", "Anadolu", "Arabistan"], correct: 1 },
+
+    { q: "6) İlk Türk-İslam Devleti hangisidir?", 
+      a: ["Gazneliler", "Selçuklular", "Karahanlılar", "Memlükler"], correct: 2 },
+
+    { q: "7) İstanbul kaç yılında fethedilmiştir?", 
+      a: ["1453", "1071", "1299", "1517"], correct: 0 },
+
+    { q: "8) Anadolu’ya ilk akınları yapan Türk boyu hangisidir?", 
+      a: ["Hunlar", "Göktürkler", "Kıpçaklar", "Oğuzlar"], correct: 0 },
+
+    { q: "9) Tarihte bilinen ilk yazılı antlaşma hangisidir?", 
+      a: ["Kadeş Antlaşması", "Ankara Savaşı", "Miryokefalon", "Çaldıran"], correct: 0 },
+
+    { q: "10) Türkiye Cumhuriyeti’nin kurucusu kimdir?", 
+      a: ["Fatih Sultan Mehmet", "Mustafa Kemal Atatürk", "Yavuz Sultan Selim", "Kanuni"], correct: 1 }
 ];
 
-function yükleSorular() {
-    let quiz = document.getElementById("quiz");
-    quiz.innerHTML = "";
+function loadQuiz(){
+    let quizDiv = document.getElementById("quiz");
+    quizDiv.innerHTML = "";
 
-    sorular.forEach((s, index) => {
-        let html = `
-            <div class="question">${s.soru}</div>
-        `;
+    questions.forEach((item, index) => {
+        let box = document.createElement("div");
+        box.className = "question-box";
 
-        s.seçenekler.forEach((opt, i) => {
-            html += `
-                <label class="option">
-                    <input type="radio" name="q${index}" value="${i}">
-                    ${opt}
-                </label>
-            `;
+        let title = document.createElement("h3");
+        title.textContent = item.q;
+        box.appendChild(title);
+
+        item.a.forEach((choice, i) => {
+            let label = document.createElement("label");
+            label.style.display = "block";
+
+            let input = document.createElement("input");
+            input.type = "radio";
+            input.name = "q" + index;
+            input.value = i;
+
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(" " + choice));
+
+            box.appendChild(label);
         });
 
-        quiz.innerHTML += html;
+        quizDiv.appendChild(box);
     });
 }
 
-function checkAnswers() {
-    let doğruSayısı = 0;
+function checkAnswers(){
+    let score = 0;
 
-    sorular.forEach((s, index) => {
-        let seçilen = document.querySelector(`input[name="q${index}"]:checked`);
-        if (seçilen && Number(seçilen.value) === s.doğru) {
-            doğruSayısı++;
+    questions.forEach((item, index) => {
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && Number(selected.value) === item.correct){
+            score++;
         }
     });
 
-    document.getElementById("result").innerHTML =
-        "Doğru Sayısı: " + doğruSayısı + "/" + sorular.length;
+    document.getElementById("resultText").textContent = 
+        "Toplam Doğru Sayısı: " + score + " / 10";
 }
 
-yükleSorular();
+loadQuiz();
 </script>
 
 </body>
