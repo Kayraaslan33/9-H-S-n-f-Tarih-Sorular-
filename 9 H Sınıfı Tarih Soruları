@@ -1,0 +1,58 @@
+index.html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>9/H Sınıfı Tarih Soruları</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+.question { margin-bottom: 20px; }
+button { padding: 10px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h2>9/H Sınıfı Tarih Soruları</h2>
+
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Cevapları Kontrol Et</button>
+
+<script>
+const questions = [
+  { q:"1) İlk Çağda yazıyı bulan uygarlık hangisidir?", a:["Mısırlar","Sümerler","Hititler","Urartular","Lidyalılar"], correct:1 },
+  { q:"2) Tarih biliminin temel malzemesi nedir?", a:["Para","Silah","Yazı","Taş","Toprak"], correct:2 },
+  { q:"3) Orta Çağ hangi olayla başlar?", a:["İstanbul'un Fethi","Yazının Bulunması","Roma'nın Yıkılması","Kavimler Göçü","Rönesans"], correct:3 },
+  { q:"4) Osmanlı devletinin kurucusu kimdir?", a:["Fatih","Kanuni","Orhan Bey","Osman Bey","Yıldırım Bayezid"], correct:3 },
+  { q:"5) Türklerin ana yurdu neresidir?", a:["Avrupa","Orta Asya","Anadolu","Arabistan","Suriye"], correct:1 },
+  { q:"6) İlk Türk-İslam Devleti hangisidir?", a:["Gazneliler","Selçuklular","Karahanlılar","Eyyübiler","Memlükler"], correct:2 },
+  { q:"7) İlk Türk parası hangi devlette basıldı?", a:["Uygurlar","Göktürkler","Sümerler","Lidyalılar","Osmanlı"], correct:0 },
+  { q:"8) Türklerin kullandığı en eski takvim hangisidir?", a:["Miladi","Hicri","Rumi","12 Hayvanlı Türk Takvimi","Güneş Takvimi"], correct:3 },
+  { q:"9) Coğrafi keşiflerin başlamasına neden olan gelişme nedir?", a:["Pusulanın icadı","Matbaanın icadı","Sanayileşme","Reform","Derebeylik"], correct:0 },
+  { q:"10) Osmanlı Devleti’nde ilk yazılı kanunları hazırlayan padişah?", a:["Fatih","Kanuni","Orhan Bey","Yavuz","I. Murat"], correct:1 }
+];
+
+const quizDiv = document.getElementById("quiz");
+
+questions.forEach((q, i) => {
+  let html = `<div class='question'><b>${q.q}</b><br>`;
+  q.a.forEach((choice, j) => {
+    html += `<input type='radio' name='q${i}' value='${j}'> ${choice}<br>`;
+  });
+  html += "</div>";
+  quizDiv.innerHTML += html;
+});
+
+function checkAnswers(){
+  let score = 0;
+  questions.forEach((q,i)=>{
+    const selected = document.querySelector(`input[name='q${i}']:checked`);
+    if(selected && parseInt(selected.value) === q.correct){
+      score++;
+    }
+  });
+  alert("Doğru sayınız: " + score + "/10");
+}
+</script>
+
+</body>
+</html>
